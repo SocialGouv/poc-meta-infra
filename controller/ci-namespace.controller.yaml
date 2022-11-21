@@ -1,0 +1,19 @@
+apiVersion: metacontroller.k8s.io/v1alpha1
+kind: CompositeController
+metadata:
+  name: ci-namespace-controller
+  namespace: meta-infra
+spec:
+  generateSelector: true
+  parentResource:
+    apiVersion: fabrique.social.gouv.fr/v1
+    resource: ci-namespaces
+  childResources:
+  - apiVersion: v1
+    resource: namespaces
+    updateStrategy:
+      method: InPlace
+  hooks:
+    sync:
+      webhook:
+        url: http://ci-namespace-controller.meta-infra:8000

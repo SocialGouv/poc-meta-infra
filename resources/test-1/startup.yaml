@@ -1,0 +1,5 @@
+apiVersion: fabrique.social.gouv.fr/v1
+kind: Startup
+metadata:
+  name: test-1
+  namespace: meta-infra

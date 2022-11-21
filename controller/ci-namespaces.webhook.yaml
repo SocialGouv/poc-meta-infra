@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ci-namespace-controller
+  namespace: meta-infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ci-namespace-controller
+  template:
+    metadata:
+      labels:
+        app: ci-namespace-controller
+    spec:
+      containers:
+      - name: controller
+        image: node:18-slim
+        command: ["node", "/hooks/ci-namespace.controller.js"]
+        volumeMounts:
+        - name: hooks
+          mountPath: /hooks
+      volumes:
+      - name: hooks
+        configMap:
+          name: ci-namespace-controller
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ci-namespace-controller
+  namespace: meta-infra
+spec:
+  selector:
+    app: ci-namespace-controller
+  ports:
+  - port: 8000

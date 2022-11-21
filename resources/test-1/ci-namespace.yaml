@@ -1,0 +1,8 @@
+apiVersion: fabrique.social.gouv.fr/v1
+kind: CiNamespace
+metadata:
+  name: test-1-ci
+  namespace: meta-infra
+spec:
+  startupRef: test-3
+  clusterRef: dev
